@@ -1,0 +1,6 @@
+id,nome,tamanho,cor,tipo,quantidadeEstoque,precoUnitario,descricao
+1,sapato bico redondo,38,preto,masculino,6,175.95,Sapato Casual Masculino sem cadarço de bico redondo
+2,sapato bico fino,39,preto,masculino,8,195.95,Sapato Casual Masculino com cadarço de bico fino
+3,sapato cadarço casual,40,marron,masculino,4,169.75,Sapato Casual Masculino com cadarço
+4,sapato sport,41,bege,masculino,10,177.75,Sapato Casual Masculino sport casual
+5,Sapatenis,42,marron,masculino,6,139.25,Sapatenis Masculino sem cadarço

@@ -1,0 +1,27 @@
+<br>
+<nav>
+    <a href="/cadastrarProduto">Cadastrar Produto</a>&emsp;
+    <a href="/listarProduto">Listar Produto</a>&emsp;
+    <a href="/editarProduto">Editar Produto</a>&emsp;
+    <a href="/excluirProduto">Excluir Produto</a>
+</nav>
+<br><br>
+<form action="/cadastrarCamisa" method="post">
+    <label for="nome">Nome da Camisa:</label><br>
+    <input type="text" name="nome" placeholder="nome da camisa"><br>
+    <label for="tamanho">Tamanho da Camisa:</label><br>
+    <input type="text" name="tamanho" placeholder="M"><br>
+    <label for="tipo">Tipo da Camisa:</label><br>
+    <input type="text" name="tipo" placeholder="masculino"><br>
+    <label for="quantidadeEstoque">Quantidade da Camisa:</label><br>
+    <input type="text" name="quantidadeEstoque" placeholder="quantidade"><br>
+    <label for="precoUnitario">Preço unitário da Camisa:</label><br>
+    <input type="text" name="precoUnitario" placeholder="unitário"><br>
+    <label for="descricao">Descrição da Camisa:</label><br>
+    <input type="text" name="descricao" placeholder="Descrição"><br>
+    <br><br>
+    <button type="submit">Enviar</button>
+</form>
+{{#if msg}}
+    <p>{{msg}}</p>
+{{/if}} 

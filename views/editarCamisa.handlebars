@@ -1,0 +1,64 @@
+<br>
+<nav>
+    <a href="/cadastrarCamisa">Cadastrar Camisa</a>&emsp;
+    <a href="/listarCamisa">Listar Camisa</a>&emsp;
+    <a href="/editarCamisa">Editar Camisa</a>&emsp;
+    <a href="/excluirCamisa">Excluir Camisa</a>
+</nav>
+<br>
+<h2>Consulta do produto atual</h2>
+<form action="/consultaProduto" method="post">
+    <label for="nome">Nome do Produto:</label><br>
+    <input type="text" name="nome" placeholder="nome do sapato"><br>
+    <br>
+    <button type="submit">Enviar</button>
+</form>
+<br>
+<table>
+    <thead>
+        <th>Nome</th>
+        <th>Tamanho</th>
+        <th>Cor</th>
+        <th>Tipo</th>
+        <th>Qtde Estoque</th>
+        <th>Preço R$</th>
+        <th>Descrição</th>
+    </thead>
+    <tbody>
+   {{#if valor}}
+        <tr>
+            <td>{{valor.nome}}</td>
+            <td>{{valor.tamanho}}</td>
+            <td>{{valor.cor}}</td>
+            <td>{{valor.tipo}}</td>
+            <td>{{valor.quantidadeEstoque}}</td>
+            <td>{{valor.precoUnitario}}</td>
+            <td>{{valor.descricao}}</td>
+        </tr>
+    {{/if}}
+    </tbody>
+</table>
+<br>
+<h2>Atualização do Produto</h2>
+<br>
+<form action="/editarProduto" method="post">
+    <label for="nome">Novo Nome do Produto:</label><br>
+    <input type="text" name="nome" placeholder="nome do sapato"><br>
+    <label for="tamanho">Tamanho do Produto:</label><br>
+    <input type="text" name="tamanho" placeholder="38"><br>
+    <label for="cor">Cor do Produto:</label><br>
+    <input type="text" name="cor" placeholder="marron"><br>
+    <label for="tipo">Tipo do Produto:</label><br>
+    <input type="text" name="tipo" placeholder="masculino"><br>
+    <label for="quantidadeEstoque">Quantidade do Produto:</label><br>
+    <input type="text" name="quantidadeEstoque" placeholder="quantidade"><br>
+    <label for="precoUnitario">Preço unitário do Produto:</label><br>
+    <input type="text" name="precoUnitario" placeholder="unitário"><br>
+    <label for="descricao">Descrição do Produto:</label><br>
+    <input type="text" name="descricao" placeholder="Descrição"><br>
+    <br><br>
+    <button type="submit">Enviar</button>
+</form>
+{{#if msg}}
+    <p>{{msg}}</p>
+{{/if}} 

@@ -1,0 +1,53 @@
+body{
+    background-color: darkgrey;
+    font-size: 1.1rem;
+    color: white;
+}
+.cabecalho{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+}
+.cabecalho img:hover{
+    cursor: pointer;
+}
+nav a{
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin-left: 24px;
+}
+nav a:hover{
+    background-color: grey;
+    transition: 1.0s;
+    opacity: 0.7;
+    cursor: pointer;
+}
+nav a:visited{
+    color: white;
+}
+h1{
+    font-size: 2rem;
+}
+table,th,td{
+    border-collapse: collapse;
+    border: 2px solid white;
+}
+th{
+    color: darkblue;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 0px 4px;
+}
+td{
+    color: white;
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 0px 4px;
+}
+button,input{
+    background-color: black;
+    color:white;
+}
