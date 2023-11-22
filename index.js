@@ -94,18 +94,39 @@ app.post('/cadastrarCamisa', async (req,res)=>{
 app.get('/cadastrarCamisa', (req,res)=>{
     res.render('cadastrarCamisa', {log, usuario, tipoUsuario})
 })
-app.post('/cadastrarCliente', async (req,res)=>{
-    const usuario = req.body.usuario
-    const email = req.body.email
-    const telefone = req.body.telefone
-    const cpf = req.body.cpf
-    const senha = req.body.senha
-    const tipo = req.body.tipo
-    console.log(usuario,email , telefone, cpf, senha, tipo )
-    await Cliente.create({usuario:usuario, email:email, telefone: telefone, cpf: cpf, senha: senha, tipo: tipo})
-    let msg = 'Dados Cadastrados'
-    res.render('cadastrarCliente', {log, usuario, tipoUsuario})
-})
+app.post("/cadastrarCliente", async (req, res) => {
+    const usuario = req.body.usuario;
+    const email = req.body.email;
+    const telefone = req.body.telefone;
+    const cpf = req.body.cpf;
+    const senha = req.body.senha;
+    const tipo = req.body.tipo;
+    const msg = "Preencha todos os dados!!"
+
+    if(!nome  || !email  || !senha  || !cpf  || !telefone || !tipo){
+        res.render("cadastro",{log,msg,usuario,tipoUsuario})
+    }else{
+    bcrypt.hash(senha, 10, async (err, hash) => {
+        if (err) {
+            console.error("Erro ao criar o hash da senha" + err);
+            res.render("home", { log });
+            return;
+        }
+        try {
+            await Usuarios.create({usuario: usuario,email: email, telefone: telefone,cpf: cpf,senha: hash,tipo: tipo,});
+            log = true;
+            usuario = usuario
+            tipoUsuario = tipo
+            res.render('home', { log,usuario,tipoUsuario });
+        } catch (error) {
+            console.error("Erro ao criar a senha" + error);
+            res.render('home', { log ,usuario,tipoUsuario});
+        }
+    }); 
+    }
+
+
+});
 
 
 app.get('/cadastrarCliente', (req,res)=>{
