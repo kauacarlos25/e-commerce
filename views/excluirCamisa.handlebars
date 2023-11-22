@@ -1,0 +1,22 @@
+<br>
+<nav class="menu">
+    <a href="/cadastrarCamisa">Cadastrar Camisa</a>&emsp;
+    <a href="/listarCamisa">Listar Camisa</a>&emsp;
+    <a href="/editarCamisa">Editar Camisa</a>&emsp;
+    <a href="/excluirCamisa">Excluir Camisa</a>
+</nav>
+<br><br>
+<h1>Excluir uma Camisa</h1>
+<br>
+<form action="/excluirCamisa" method="post">     
+    <label for="nome">Digite o nome da camisa:</label><br>
+    <input type="text" name="nome" placeholder="Digite o nome da camisa"><br>
+    <br><br>
+    <button type="submit">Enviar</button>
+</form>
+<br>
+{{#if msg}}
+    <p>{{msg}}</p>
+{{else}}
+    <p>{{msg2}}</p>
+{{/if}} 

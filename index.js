@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const exphbs = require('express-handlebars')
-// const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt')
 const conn = require('./db/conn')
 const Cliente = require('./models/Cliente')
 const Camisa = require('./models/Camisa')
@@ -23,34 +23,40 @@ app.set('view engine', 'handlebars')
 
 // ================== Produtos à venda =======================
 
-app.post('/comprar', async (req,res)=>{
-    const dados_carrinho = req.body
-    console.log(dados_carrinho)
+app.post('/comprar', async (req, res) => {
+    const dados_carrinho = req.body;
+    console.log(dados_carrinho);
 
-    const atualiza_promise = []
+    const atualiza_promise = [];
 
-    for (const item of dados_carrinho){
-        const camisa = await Camisa.findByPk(item.cod_prod, {raw: true})
-        console.log(camisa)
-        if(!produto || produto.quantidadeEstoque < item.qtde){
-           return  res.status(400).json({message: "produto insuficiente ou não disponível" + camisa.quantidadeEstoque})
+    for (const item of dados_carrinho) {
+        const camisa = await Camisa.findByPk(item.cod_prod, { raw: true });
+        console.log(camisa);
+
+        if (!camisa || camisa.quantidadeEstoque < item.qtde) {
+            return res.status(400).json({ message: "Produto insuficiente ou não disponível" });
         }
 
-        const atualiza_promessas = await Camisa.update(
-            { quantidadeEstoque: camisa.quantidadeEstoque - item.qtde},
-            {where: { id: item.cod_prod}}
-        )
-        atualiza_promise.push(atualiza_promessas)
+        const novaQuantidadeEstoque = camisa.quantidadeEstoque - item.qtde;
+
+        // Atualize o estoque no banco de dados
+        const atualiza_promessa = await Camisa.update(
+            { quantidadeEstoque: novaQuantidadeEstoque },
+            { where: { id: item.cod_prod } }
+        );
+
+        atualiza_promise.push(atualiza_promessa);
     }
 
-    try{
-        await Promise.all(atualiza_promise)
-        res.status(200).json({message: "compra realizada com sucesso!"})
-    }catch(error){
-        console.error("Erro ao atualizar os dados"+error)
-        res.status(500).json({message: "Erro ao processar a compra"})
+    try {
+        await Promise.all(atualiza_promise);
+        res.status(200).json({ message: "Compra realizada com sucesso!" });
+    } catch (error) {
+        console.error("Erro ao atualizar os dados" + error);
+        res.status(500).json({ message: "Erro ao processar a compra" });
     }
-})
+});
+
 
 app.get('/carrinho', (req,res)=>{
     res.render('carrinho', {log, usuario, tipoUsuario})
@@ -65,33 +71,6 @@ app.get('/masculino', (req,res)=>{
 
 
 // ===================== gerenciamento interno ===============
-
-app.post('/editarCamisa', async (req,res)=>{
-    const nome = req.body.nome
-    const tamanho = Number(req.body.tamanho)
-    const tipo = req.body.tipo
-    const quantidadeEstoque = Number(req.body.quantidadeEstoque)
-    const precoUnitario = Number(req.body.precoUnitario)
-    const descricao = req.body.descricao
-    console.log(nome,tamanho, tipo, quantidadeEstoque, precoUnitario, descricao)
-    const dados = await Camisa.findOne({raw:true, where: {nome:nome_camisa}})
-    console.log(dados)
-    res.redirect('/editarCamisa')
-
-})
-
-app.post('/consultaCamisa', async (req, res)=>{
-    const nome_camisa = req.body.nome
-    console.log(nome_camisa)
-    const dados = await Camisa.findOne({raw:true, where: {nome:nome_camisa}})
-    console.log(dados)
-    res.render('editarCamisa',{log, usuario, tipoUsuario, valor:dados} )
-})
-
-app.get('/editarCamisa', (req,res)=>{
-    res.render('editarCamisa', {log, usuario, tipoUsuario})
-})
-
 app.get('/listarCamisa', async (req,res)=>{
     const dados = await Camisa.findAll({raw:true})
     console.log(dados)
@@ -106,13 +85,97 @@ app.post('/cadastrarCamisa', async (req,res)=>{
     const precoUnitario = req.body.precoUnitario
     const descricao = req.body.descricao
     console.log(nome,tamanho, tipo, quantidadeEstoque, precoUnitario, descricao)
-    await Produto.create({nome:nome, tamanho:tamanho, tipo: tipo, quantidadeEstoque: quantidadeEstoque, precoUnitario: precoUnitario, descricao: descricao})
+    await Camisa.create({nome:nome, tamanho:tamanho, tipo: tipo, quantidadeEstoque: quantidadeEstoque, precoUnitario: precoUnitario, descricao: descricao})
     let msg = 'Dados Cadastrados'
-    res.render('cadastrarProduto', {log, usuario, tipoUsuario})
+    res.render('cadastrarCamisa', {log, usuario, tipoUsuario})
 })
 
-app.get('/cadastrarProduto', (req,res)=>{
-    res.render('cadastrarProduto', {log, usuario, tipoUsuario})
+
+app.get('/cadastrarCamisa', (req,res)=>{
+    res.render('cadastrarCamisa', {log, usuario, tipoUsuario})
+})
+app.post('/cadastrarCliente', async (req,res)=>{
+    const usuario = req.body.usuario
+    const email = req.body.email
+    const telefone = req.body.telefone
+    const cpf = req.body.cpf
+    const senha = req.body.senha
+    const tipo = req.body.tipo
+    console.log(usuario,email , telefone, cpf, senha, tipo )
+    await Cliente.create({usuario:usuario, email:email, telefone: telefone, cpf: cpf, senha: senha, tipo: tipo})
+    let msg = 'Dados Cadastrados'
+    res.render('cadastrarCliente', {log, usuario, tipoUsuario})
+})
+
+
+app.get('/cadastrarCliente', (req,res)=>{
+    res.render('cadastrarCliente', {log, usuario, tipoUsuario})
+})
+app.post('/editarCamisa', async (req, res) => {
+    const nome = req.body.nome;
+    const tamanho = Number(req.body.tamanho);
+    const tipo = req.body.tipo;
+    const quantidadeEstoque = Number(req.body.quantidadeEstoque);
+    const precoUnitario = Number(req.body.precoUnitario);
+    const descricao = req.body.descricao;
+
+    try {
+        const [numRowsUpdated, updatedRows] = await Camisa.update(
+            {
+                tamanho: tamanho,
+                tipo: tipo,
+                quantidadeEstoque: quantidadeEstoque,
+                precoUnitario: precoUnitario,
+                descricao: descricao
+            },
+            {
+                where: { nome: nome },
+                returning: true
+            }
+        );
+
+        if (numRowsUpdated > 0) {
+            const updatedCamisa = updatedRows[0].get();
+            console.log("Camisa atualizada com sucesso:", updatedCamisa);
+            res.redirect('/editarCamisa');
+        } else {
+            console.log("Camisa não encontrada para atualizar.");
+            res.status(404).send("Camisa não encontrada para atualizar.");
+        }
+    } catch (error) {
+        console.error("Erro ao atualizar os dados", error);
+        res.status(500).send("Erro ao processar a atualização da camisa.");
+    }
+})
+app.post('/consultaCamisa', async (req, res)=>{
+    const nome_camisa = req.body.nome
+    console.log(nome_camisa)
+    const dados = await Camisa.findOne({raw:true, where: {nome:nome_camisa}})
+    console.log(dados)
+    res.render('editarCamisa',{log, usuario, tipoUsuario, valor:dados} )
+})
+
+app.get('/editarCamisa', (req,res)=>{
+    res.render('editarCamisa', {log, usuario, tipoUsuario})
+})
+app.post('/excluirCamisa', async (req,res)=>{
+    const nome = req.body.nome
+    const pesq = await Camisa.findOne({where: {nome: nome}})
+    console.log(pesq)
+    let msg = 'Camisa excluída'
+    let msg2 = 'Camisa não encontrada'
+    if(pesq == null){
+        res.render('excluirCamisa', {log,usuario,msg2})
+    }else if(pesq.nome == nome){
+        await Camisa.destroy({where: {nome: pesq.nome}})
+        res.render('excluirCamisa', {log,usuario,tipoUsuario,msg})
+    }else{
+        res.render('excluirCamisa', {log,usuario,tipoUsuario,msg2})
+    }
+})
+
+app.get('/excluirCamisa', (req,res)=>{
+    res.render('excluirCamisa', {log,usuario,tipoUsuario })
 })
 
 // =================== login no sistema ======================
@@ -154,13 +217,12 @@ app.get('/login', (req,res)=>{
 app.get('/logout', (req,res)=>{
     log = false
     usuario = ''
-    res.render('home', {log, usuario})
+    res.render('home', {log, usuario, tipoUsuario})
 })
 
 app.get('/', (req,res)=>{
-    log = false
     usuario = ''
-    res.render('home', {log, usuario})
+    res.render('home', {log, usuario, tipoUsuario})
 })
 /* ------------------------------------------------- */
 conn.sync().then(()=>{

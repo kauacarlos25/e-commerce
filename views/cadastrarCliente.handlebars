@@ -1,0 +1,20 @@
+<br><br>
+<form action="/cadastrarCliente" method="post">
+    <label for="usuario">Nome do Cliente:</label><br>
+    <input type="text" name="usuario" placeholder="nome do Cliente"><br>
+    <label for="email">Email:</label><br>
+    <input type="text" name="email" placeholder="email"><br>
+    <label for="telefone">telefone</label><br>
+    <input type="text" name="telefone" placeholder="telefone"><br>
+    <label for="cpf">CPF:</label><br>
+    <input type="text" name="cpf" placeholder="cpf"><br>
+    <label for="senha">Senha</label><br>
+    <input type="text" name="senha" placeholder="senha"><br>
+    <label for="tipo">Tipo:</label><br>
+    <input type="text" name="tipo" placeholder="Admin ou Cliente"><br>
+    <br><br>
+    <button type="submit">Enviar</button>
+</form>
+{{#if msg}}
+    <p>{{msg}}</p>
+{{/if}} 

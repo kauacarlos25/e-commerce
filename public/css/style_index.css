@@ -7,7 +7,7 @@
 }
 
 body{
-    background-image: linear-gradient(#009527,#1bb35f);
+    background-color: linear-gradient(#009527,#1bb35f);
 
 }
 
@@ -69,11 +69,8 @@ h1{
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background-color:  #fffbf4;
+    color: black;
 }
-
-
-
 
 
 .menu_itens{
@@ -83,7 +80,7 @@ h1{
     justify-content: space-between;
     align-items: flex-start;
     list-style: none;
-    
+    background-color: black;
 }
 
 nav li{
@@ -104,7 +101,7 @@ nav li{
     font-size: 1.2rem;
     transition: 0.8s;
     transform: scale(1.1);
-    color: blue;
+    color: black;
 }
 
 .icone{
@@ -124,8 +121,12 @@ footer{
     text-align: center;
     color:black;
     bottom: 0%; 
+    margin-top: -15px;
 }
-
+label, input {
+    display: block;
+    margin: 0 auto;
+}
 .horario{
     flex-direction: column;
     justify-content: flex-start;

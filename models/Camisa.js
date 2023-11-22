@@ -2,11 +2,14 @@ const { DataTypes } = require('sequelize')
 const db = require('../db/conn')
 
 const Camisa = db.define('camisa',{
+    num_camisa:{
+        type: DataTypes.STRING(10)
+    },
     nome: {
-        type: DataTypes.STRING(50)  // nome da camisa
+        type: DataTypes.STRING(100)  // nome da camisa
     },
     tamanho:{
-        type: DataTypes.INTEGER   // M
+        type: DataTypes.STRING(30)  // M
     },
     tipo:{
         type: DataTypes.STRING(30)  // masculino ou feminino
@@ -18,7 +21,7 @@ const Camisa = db.define('camisa',{
         type: DataTypes.FLOAT  // 123.45
     },
     descricao: {
-        type: DataTypes.TEXT
+        type: DataTypes.STRING(30)
     }
 },{
     createdAt: false,

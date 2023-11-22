@@ -2,7 +2,7 @@
     font-size: 1rem;
     font-weight: bolder;
     font-family: Tahoma;
-    color: darkblue; 
+    color: black; 
 }
 
 .titulo-fem{
@@ -23,7 +23,7 @@
     padding: 4px;
     margin-bottom: 4px;
     font-family: Tahoma;
-    color: darkblue;
+    color: black;
     opacity: 0.5;
 }
 

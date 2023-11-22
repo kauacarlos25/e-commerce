@@ -1,0 +1,7 @@
+id;num_camisa;nome;tamanho ;tipo;quantidadeEstoque;precoUnitario;descricao
+1;1;chelsea;M;M;4;195.95;camisa masculina
+2;2;barcelona;P;M;3;175.95;camisa masculina
+3;3;napoli;G;M;1;180.95;camisa masculina
+4;4;chelsea;M;F;2;150.00;camisa feminina
+5;5;barcelona;P;F;3;155.50;camisa feminina
+6;6;napoli;G;F;4;165.95;camisa feminina
