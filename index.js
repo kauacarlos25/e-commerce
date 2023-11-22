@@ -103,8 +103,8 @@ app.post("/cadastrarCliente", async (req, res) => {
     const tipo = req.body.tipo;
     const msg = "Preencha todos os dados!!"
 
-    if(!nome  || !email  || !senha  || !cpf  || !telefone || !tipo){
-        res.render("cadastro",{log,msg,usuario,tipoUsuario})
+    if(!usuario  || !email  || !cpf  || !telefone  || !senha || !tipo){
+        res.render("cadastrarCliente",{log,msg,usuario,tipoUsuario})
     }else{
     bcrypt.hash(senha, 10, async (err, hash) => {
         if (err) {
@@ -113,7 +113,7 @@ app.post("/cadastrarCliente", async (req, res) => {
             return;
         }
         try {
-            await Usuarios.create({usuario: usuario,email: email, telefone: telefone,cpf: cpf,senha: hash,tipo: tipo,});
+            await Cliente.create({usuario: usuario,email: email, telefone: telefone,cpf: cpf,senha: hash,tipo: tipo,});
             log = true;
             usuario = usuario
             tipoUsuario = tipo
@@ -122,7 +122,7 @@ app.post("/cadastrarCliente", async (req, res) => {
             console.error("Erro ao criar a senha" + error);
             res.render('home', { log ,usuario,tipoUsuario});
         }
-    }); 
+    })
     }
 
 
