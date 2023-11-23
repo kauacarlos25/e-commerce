@@ -193,38 +193,39 @@ app.get('/excluirCamisa', (req,res)=>{
 
 // =================== login no sistema ======================
 
-app.post('/login', async (req,res)=>{
-    const email = req.body.email
-    const senha = req.body.senha
-    console.log(email,senha)
-    const pesq = await Cliente.findOne({raw:true, where:{email:email,senha:senha}})
-    console.log(pesq)
-    let msg = 'Usuário não Cadastrado'
-    if(pesq == null){
-        res.render('home', {msg})
-    }else if(email == pesq.email && senha == pesq.senha && pesq.tipo === 'admin'){
-        log = true
-        usuario = pesq.usuario
-        tipoUsuario = pesq.tipo
-        console.log(tipoUsuario)
-        res.render('gerenciador', {log, usuario, tipoUsuario})        
-    }else if(email == pesq.email && senha == pesq.senha && pesq.tipo === 'cliente'){
-        log = true
-        usuario = pesq.usuario
-        tipoUsuario = pesq.tipo
-        console.log(usuario)
-        res.render('home', {log, usuario, tipoUsuario})
-        
-    }else{
-        res.render('home', {msg})
+app.post("/login", async (req, res) => {
+    const email = req.body.email;
+    const senha = req.body.senha;
+
+    const pesq = await Cliente.findOne({ where: { email: email } });
+
+    if (!pesq) {
+        return res.render('login', { log, msg: 'Usuário não cadastrado' });
     }
-    // res.redirect('/')
+
+    bcrypt.compare(senha, pesq.senha, (err, result) => {
+        if (err || !result) {
+            return res.render('login', { log, msg: 'Senha incorreta' });
+        }
+
+        log = true;
+        usuario = pesq.usuario;
+        tipoUsuario = pesq.tipo;
+
+        if (tipoUsuario === 'admin') {
+            res.render('gerenciador', { log, usuario, tipoUsuario });
+        } else if (tipoUsuario === 'cliente') {
+            res.render('home', { log, usuario, tipoUsuario });
+        } else {
+        }
+    })
 })
+
 
 app.get('/login', (req,res)=>{
     log = false
     usuario = ''
-    res.render('login', {log, usuario})
+    res.render('login', {log, usuario, tipoUsuario})
 })
 
 app.get('/logout', (req,res)=>{
