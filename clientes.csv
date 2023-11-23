@@ -1,0 +1,6 @@
+id;usuario;email;telefone ;cpf;senha;tipo
+1;Kauã;kaua@gmail.com;47997728973;80012409992;123;admin
+2;Carlos;carlos@gmail.com;47996743289;90013209697;123;cliente
+3;Murillo;murillo@gmail.com;47999887766;70014309785;123;admin
+4;Arthur;arthur@gmail.com;47999867732;40983284921;123;cliente
+5;Antônio;antonio@gmail.com;47995673298;14345788532;123;cliente

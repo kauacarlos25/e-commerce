@@ -1,6 +1,0 @@
-id,usuario,email,telefone,cpf,senha,tipo
-1,Carlos Silva,carlos@gmail.com,47999887766,99988877766,123,admin
-2,Roger Araujo,roger@gmail.com,47977665544,88877766655,123,cliente
-3,Renato Teles,renato@gmail.com,47966554433,77766655544,123,cliente
-4,Adalto Silveira,adalto@gmail.com,47955443322,66655544433,123,cliente
-5,Eduardo Oliveira,eduardo@gmail.com,47944332211,55544433322,123,cliente
