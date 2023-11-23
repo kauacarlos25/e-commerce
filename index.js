@@ -132,42 +132,34 @@ app.post("/cadastrarCliente", async (req, res) => {
 app.get('/cadastrarCliente', (req,res)=>{
     res.render('cadastrarCliente', {log, usuario, tipoUsuario})
 })
-app.post('/editarCamisa', async (req, res) => {
-    const nome = req.body.nome;
-    const tamanho = Number(req.body.tamanho);
-    const tipo = req.body.tipo;
-    const quantidadeEstoque = Number(req.body.quantidadeEstoque);
-    const precoUnitario = Number(req.body.precoUnitario);
-    const descricao = req.body.descricao;
+app.post('/editarCamisa', async (req,res)=>{
+    const  id = req.body.id
+    const nome = req.body.nome
+    const quantidadeEstoque = Number(req.body.quantidadeEstoque)
+    const precoUnitario = Number(req.body.precoUnitario)
+    const descricao = req.body.descricao
+    const msg = "Dados Atualizados"
 
-    try {
-        const [numRowsUpdated, updatedRows] = await Camisa.update(
-            {
-                tamanho: tamanho,
-                tipo: tipo,
-                quantidadeEstoque: quantidadeEstoque,
-                precoUnitario: precoUnitario,
-                descricao: descricao
-            },
-            {
-                where: { nome: nome },
-                returning: true
-            }
-        );
+    const nome_camisa = await Camisa.findOne({raw:true, where: {id:id}})
 
-        if (numRowsUpdated > 0) {
-            const updatedCamisa = updatedRows[0].get();
-            console.log("Camisa atualizada com sucesso:", updatedCamisa);
-            res.redirect('/editarCamisa');
-        } else {
-            console.log("Camisa não encontrada para atualizar.");
-            res.status(404).send("Camisa não encontrada para atualizar.");
-        }
-    } catch (error) {
-        console.error("Erro ao atualizar os dados", error);
-        res.status(500).send("Erro ao processar a atualização da camisa.");
-    }
+    if(nome_camisa != null){
+       const dados = {
+        id:id,
+        nome:nome,
+        quantidadeEstoque:quantidadeEstoque,
+        precoUnitario:precoUnitario,
+        descricao:descricao
+       }
+        if(nome_camisa.id === nome_camisa.id){
+        await Camisa.update(dados,{where: {id:id}})
+        res.render("editarCamisa",{log,usuario,msg})
+        }else{
+        res.redirect('/editarCamisa')
+    
+
+    }}
 })
+
 app.post('/consultaCamisa', async (req, res)=>{
     const nome_camisa = req.body.nome
     console.log(nome_camisa)

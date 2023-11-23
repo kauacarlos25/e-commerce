@@ -16,6 +16,7 @@
 <br>
 <table>
     <thead>
+        <th>Id</th>
         <th>Nome</th>
         <th>Tamanho</th>
         <th>Tipo</th>
@@ -26,6 +27,7 @@
     <tbody>
    {{#if valor}}
         <tr>
+            <td>{{this.id}}</td>
             <td>{{valor.nome}}</td>
             <td>{{valor.tamanho}}</td>
             <td>{{valor.tipo}}</td>
@@ -40,12 +42,10 @@
 <h2>Atualização da Camisa</h2>
 <br>
 <form action="/editarCamisa" method="post">
+    <label for="id">Qual o Código da Camisa:</label><br>
+    <input type="text" name="id" placeholder="ID"><br>
     <label for="nome">Novo Nome da Camisa:</label><br>
-    <input type="text" name="nome" placeholder="nome da camisa"><br>
-    <label for="tamanho">Tamanho do Produto:</label><br>
-    <input type="text" name="tamanho" placeholder="M"><br>
-    <label for="tipo">Tipo da Camisa:</label><br>
-    <input type="text" name="tipo" placeholder="masculino"><br>
+    <input type="text" name="nome" placeholder="nome do sapato"><br>
     <label for="quantidadeEstoque">Quantidade da Camisa:</label><br>
     <input type="text" name="quantidadeEstoque" placeholder="quantidade"><br>
     <label for="precoUnitario">Preço unitário da Camisa:</label><br>
@@ -53,7 +53,7 @@
     <label for="descricao">Descrição da Camisa:</label><br>
     <input type="text" name="descricao" placeholder="Descrição"><br>
     <br><br>
-    <button type="submit">Enviar</button>
+    <button type="submit">Atualizar Camisa</button>
 </form>
 {{#if msg}}
     <p>{{msg}}</p>
